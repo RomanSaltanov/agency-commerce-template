@@ -6,6 +6,9 @@ COPY package.json package-lock.json* ./
 RUN npm install
 
 COPY . .
+# DISABLE_MEDUSA_ADMIN skips building the heavy React admin UI during Docker build
+# Admin is served from the running container via the installed node_modules
+ENV DISABLE_MEDUSA_ADMIN=false
 RUN npm run build
 
 # ─── Production image ─────────────────────────────────────────────────────────
