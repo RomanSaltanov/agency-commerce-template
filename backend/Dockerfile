@@ -22,6 +22,8 @@ COPY --from=builder /app/package.json /app/package-lock.json ./
 RUN npm ci --omit=dev
 
 COPY --from=builder /app/.medusa ./.medusa
+# medusa CLI looks for medusa-config in WORKDIR (/app)
+COPY --from=builder /app/.medusa/server/medusa-config.js ./medusa-config.js
 
 EXPOSE 9000
 
