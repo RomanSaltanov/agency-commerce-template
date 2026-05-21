@@ -35,3 +35,10 @@ dist/**
 
 .cursorignore
 **/.medusa
+
+# Claude Code local tooling
+.claude/skills/
+.agents/
+
+# Storefront node_modules (has its own .gitignore but just in case)
+storefront/node_modules/

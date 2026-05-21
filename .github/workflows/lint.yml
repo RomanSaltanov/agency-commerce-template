@@ -1,0 +1,63 @@
+name: Lint & Type Check
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - main
+
+jobs:
+  lint-backend:
+    name: Backend — lint & typecheck
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: backend
+        run: npm install
+
+      - name: Run ESLint
+        working-directory: backend
+        run: npm run lint
+
+      - name: Run TypeScript check
+        working-directory: backend
+        run: npm run typecheck
+
+  lint-storefront:
+    name: Storefront — lint & typecheck
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Enable Corepack (yarn)
+        run: corepack enable
+
+      - name: Install dependencies
+        working-directory: storefront
+        run: yarn install --immutable
+
+      - name: Run ESLint
+        working-directory: storefront
+        run: yarn lint
+
+      - name: Run TypeScript check
+        working-directory: storefront
+        run: yarn tsc --noEmit

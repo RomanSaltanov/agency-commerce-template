@@ -1,0 +1,73 @@
+{
+  "nav": {
+    "store": "Магазин",
+    "cart": "Кошик",
+    "account": "Акаунт",
+    "search": "Пошук"
+  },
+  "home": {
+    "hero_title": "Ласкаво просимо",
+    "hero_subtitle": "Знайдіть те, що вам потрібно"
+  },
+  "product": {
+    "add_to_cart": "Додати до кошика",
+    "out_of_stock": "Немає в наявності",
+    "in_stock": "В наявності",
+    "price": "Ціна"
+  },
+  "cart": {
+    "title": "Кошик",
+    "empty": "Ваш кошик порожній",
+    "go_to_store": "Перейти до магазину",
+    "subtotal": "Сума",
+    "checkout": "Оформити замовлення",
+    "remove": "Видалити"
+  },
+  "checkout": {
+    "title": "Оформлення замовлення",
+    "address": "Адреса доставки",
+    "delivery": "Спосіб доставки",
+    "payment": "Оплата",
+    "first_name": "Ім'я",
+    "last_name": "Прізвище",
+    "email": "Email",
+    "phone": "Телефон",
+    "address_line": "Адреса",
+    "city": "Місто",
+    "postal_code": "Індекс",
+    "continue": "Продовжити",
+    "place_order": "Оплатити"
+  },
+  "account": {
+    "login": "Увійти",
+    "register": "Зареєструватися",
+    "logout": "Вийти",
+    "orders": "Мої замовлення",
+    "addresses": "Адреси",
+    "profile": "Профіль",
+    "email": "Email",
+    "password": "Пароль",
+    "continue_with_google": "Продовжити з Google"
+  },
+  "order": {
+    "confirmed": "Замовлення підтверджено",
+    "number": "Номер замовлення",
+    "date": "Дата",
+    "status": "Статус",
+    "total": "Сума",
+    "processing": "Обробляється",
+    "shipped": "Відправлено",
+    "delivered": "Доставлено",
+    "cancelled": "Скасовано"
+  },
+  "common": {
+    "loading": "Завантаження...",
+    "error": "Сталася помилка",
+    "not_found": "Сторінку не знайдено",
+    "back": "Назад",
+    "save": "Зберегти",
+    "cancel": "Скасувати",
+    "delete": "Видалити",
+    "edit": "Редагувати"
+  }
+}
