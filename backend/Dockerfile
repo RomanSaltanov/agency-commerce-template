@@ -15,8 +15,9 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 
-COPY package.json package-lock.json* ./
-RUN npm install --omit=dev
+# Copy lock file from builder so npm ci works even without a committed lock file
+COPY --from=builder /app/package.json /app/package-lock.json ./
+RUN npm ci --omit=dev
 
 COPY --from=builder /app/.medusa ./.medusa
 
