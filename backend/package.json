@@ -20,6 +20,7 @@
     "@medusajs/file-s3": "2.15.3",
     "@medusajs/payment-stripe": "2.15.3",
     "@medusajs/fulfillment-manual": "2.15.3",
+    "@medusajs/translation": "2.15.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.2"
   },

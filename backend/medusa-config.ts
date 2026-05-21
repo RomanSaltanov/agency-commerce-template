@@ -1,4 +1,6 @@
-import { loadEnv, defineConfig, Modules } from "@medusajs/framework/utils"
+import { loadEnv, defineConfig } from "@medusajs/framework/utils"
+
+const TRANSLATION_ENABLED = process.env.MEDUSA_FF_TRANSLATION === "true"
 
 loadEnv(process.env.NODE_ENV || "development", process.cwd())
 
@@ -27,6 +29,12 @@ const modules: any[] = [
     options: { providers: authProviders },
   },
 ]
+
+if (TRANSLATION_ENABLED) {
+  modules.push({
+    resolve: "@medusajs/translation",
+  })
+}
 
 if (process.env.CLOUDFLARE_R2_BUCKET) {
   modules.push({
@@ -82,6 +90,9 @@ module.exports = defineConfig({
     databaseDriverOptions: {
       pool: { min: 1, max: 5 },
     },
+  },
+  featureFlags: {
+    translation: TRANSLATION_ENABLED,
   },
   admin: {
     backendUrl: process.env.MEDUSA_BACKEND_URL,
