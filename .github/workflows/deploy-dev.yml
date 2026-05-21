@@ -57,18 +57,21 @@ jobs:
           envs: GITHUB_TOKEN,GITHUB_ACTOR,GITHUB_REPOSITORY,GITHUB_SHA
           script: |
             set -e
-            IMAGE="${{ steps.image.outputs.name }}:dev-$GITHUB_SHA"
+            export CLIENT_NAME="${{ secrets.DEV_CLIENT_NAME }}"
+            export GITHUB_REPO="$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')"
+            export IMAGE_TAG="dev-$GITHUB_SHA"
+            IMAGE="ghcr.io/$GITHUB_REPO/backend:$IMAGE_TAG"
 
-            cd /opt/clients/${{ secrets.DEV_CLIENT_NAME }}
+            cd /opt/clients/$CLIENT_NAME
 
             echo "$GITHUB_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
             docker pull "$IMAGE"
 
             # Run migrations before swapping containers
-            IMAGE_TAG="dev-$GITHUB_SHA" docker compose run --rm backend npx medusa db:migrate
+            docker compose run --rm backend npx medusa db:migrate
 
             # Restart with new image
-            IMAGE_TAG="dev-$GITHUB_SHA" docker compose up -d --no-deps backend
+            docker compose up -d --no-deps backend
 
             sleep 10
             docker compose ps backend
