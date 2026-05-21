@@ -6,8 +6,6 @@ COPY package.json package-lock.json* ./
 RUN npm install
 
 COPY . .
-# DISABLE_MEDUSA_ADMIN skips building the heavy React admin UI during Docker build
-# Admin is served from the running container via the installed node_modules
 ENV DISABLE_MEDUSA_ADMIN=false
 RUN npm run build
 
@@ -18,10 +16,13 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 
-COPY --from=builder /app/.medusa/server/package.json /app/.medusa/server/package-lock.json ./
+COPY --from=builder /app/package.json /app/package-lock.json ./
 RUN npm ci --omit=dev
 
-COPY --from=builder /app/.medusa/server .
+# Keep .medusa intact so medusa start finds admin at .medusa/server/public/admin/
+COPY --from=builder /app/.medusa ./.medusa
+# medusa CLI looks for medusa-config.js in WORKDIR
+COPY --from=builder /app/.medusa/server/medusa-config.js ./medusa-config.js
 
 EXPOSE 9000
 
