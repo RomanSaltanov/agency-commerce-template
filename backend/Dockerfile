@@ -18,12 +18,10 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 
-COPY --from=builder /app/package.json /app/package-lock.json ./
+COPY --from=builder /app/.medusa/server/package.json /app/.medusa/server/package-lock.json ./
 RUN npm ci --omit=dev
 
-COPY --from=builder /app/.medusa ./.medusa
-# medusa CLI looks for medusa-config in WORKDIR (/app)
-COPY --from=builder /app/.medusa/server/medusa-config.js ./medusa-config.js
+COPY --from=builder /app/.medusa/server .
 
 EXPOSE 9000
 
