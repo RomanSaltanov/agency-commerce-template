@@ -18,12 +18,13 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 
-# Copy lock file from builder so npm ci works even without a committed lock file
 COPY --from=builder /app/package.json /app/package-lock.json ./
 RUN npm ci --omit=dev
 
 COPY --from=builder /app/.medusa ./.medusa
+COPY --from=builder /app/src ./src
+COPY --from=builder /app/medusa-config.ts ./medusa-config.ts
 
 EXPOSE 9000
 
-CMD ["node", ".medusa/server/index.js"]
+CMD ["npx", "medusa", "start"]

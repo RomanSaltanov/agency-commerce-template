@@ -68,8 +68,7 @@ jobs:
             docker pull "$IMAGE"
 
             # Run migrations before swapping containers
-            # CWD must be .medusa/server where medusa-config.js lives after build
-            docker compose run --rm backend sh -c "cd /app/.medusa/server && node /app/node_modules/.bin/medusa db:migrate"
+            docker compose run --rm backend npx medusa db:migrate
 
             # Restart with new image
             docker compose up -d --no-deps backend
