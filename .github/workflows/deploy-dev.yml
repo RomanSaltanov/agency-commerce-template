@@ -7,6 +7,10 @@ on:
     paths:
       - "backend/**"
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
 jobs:
   deploy:
     name: Build & deploy backend to dev
@@ -27,11 +31,12 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Docker image
+        id: build
         uses: docker/build-push-action@v5
         with:
           context: ./backend
           push: true
-          tags: ghcr.io/${{ github.repository }}/backend:dev-${{ github.sha }}
+          tags: ghcr.io/${{ env.IMAGE_NAME }}/backend:dev-${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -41,23 +46,21 @@ jobs:
           host: ${{ secrets.DEV_SSH_HOST }}
           username: ${{ secrets.DEV_SSH_USER }}
           key: ${{ secrets.DEV_SSH_KEY }}
+          envs: GITHUB_TOKEN,GITHUB_ACTOR,GITHUB_REPOSITORY,GITHUB_SHA
           script: |
             set -e
+            IMAGE="ghcr.io/$(echo $GITHUB_REPOSITORY | tr '[:upper:]' '[:lower:]')/backend:dev-$GITHUB_SHA"
+
             cd /opt/clients/${{ secrets.DEV_CLIENT_NAME }}
 
-            # Pull new image
-            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-            docker pull ghcr.io/${{ github.repository }}/backend:dev-${{ github.sha }}
-
-            # Update image tag in env
-            export IMAGE_TAG=dev-${{ github.sha }}
+            echo "$GITHUB_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+            docker pull "$IMAGE"
 
             # Run migrations before swapping containers
-            docker compose run --rm backend npx medusa db:migrate
+            IMAGE_TAG="dev-$GITHUB_SHA" docker compose run --rm backend npx medusa db:migrate
 
             # Restart with new image
-            IMAGE_TAG=dev-${{ github.sha }} docker compose up -d --no-deps backend
+            IMAGE_TAG="dev-$GITHUB_SHA" docker compose up -d --no-deps backend
 
-            # Verify health
             sleep 10
             docker compose ps backend
