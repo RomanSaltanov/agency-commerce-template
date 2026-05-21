@@ -12,17 +12,17 @@ RUN npm run build
 # ─── Production image ─────────────────────────────────────────────────────────
 FROM node:20-alpine AS runner
 
-WORKDIR /app
+# medusa start resolves public/admin relative to CWD
+# medusa build outputs to .medusa/server/public/admin
+# so CWD must be .medusa/server
+WORKDIR /app/.medusa/server
 
 ENV NODE_ENV=production
 
-COPY --from=builder /app/package.json /app/package-lock.json ./
+COPY --from=builder /app/.medusa/server/package.json /app/.medusa/server/package-lock.json* ./
 RUN npm ci --omit=dev
 
-# Keep .medusa intact so medusa start finds admin at .medusa/server/public/admin/
-COPY --from=builder /app/.medusa ./.medusa
-# medusa CLI looks for medusa-config.js in WORKDIR
-COPY --from=builder /app/.medusa/server/medusa-config.js ./medusa-config.js
+COPY --from=builder /app/.medusa/server .
 
 EXPOSE 9000
 
