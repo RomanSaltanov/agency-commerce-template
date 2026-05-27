@@ -3,6 +3,8 @@ import { notFound } from "next/navigation"
 
 import { getCategoryByHandle, listCategories } from "@lib/data/categories"
 import CategoryTemplate from "@modules/categories/templates"
+
+export const dynamic = "force-dynamic"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
 
 type Props = {
