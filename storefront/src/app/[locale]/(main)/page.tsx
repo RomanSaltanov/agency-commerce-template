@@ -18,7 +18,7 @@ export default async function Home(props: {
 
   const { locale } = params
 
-  const region = await getRegion(locale)
+  const region = await getRegion(process.env.NEXT_PUBLIC_DEFAULT_REGION || "gb")
 
   const { collections } = await listCollections({
     fields: "id, handle, title",
