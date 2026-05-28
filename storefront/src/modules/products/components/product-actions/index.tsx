@@ -40,9 +40,9 @@ export default function ProductActions({
   const [isAdding, setIsAdding] = useState(false)
   const countryCode = (process.env.NEXT_PUBLIC_DEFAULT_REGION || "gb") as string
 
-  // If there is only 1 variant, preselect the options
+  // Preselect the first variant by default
   useEffect(() => {
-    if (product.variants?.length === 1) {
+    if (product.variants?.length && product.variants[0]) {
       const variantOptions = optionsAsKeymap(product.variants[0].options)
       setOptions(variantOptions ?? {})
     }
