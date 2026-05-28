@@ -45,6 +45,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "api-dev.aldevon.co.uk",
       },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
       ...(R2_HOSTNAME
         ? [
             {
