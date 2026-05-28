@@ -38,6 +38,7 @@ dist/**
 
 # Claude Code local tooling
 .claude/skills/
+.claude/projects/
 .agents/
 
 # Storefront node_modules (has its own .gitignore but just in case)
