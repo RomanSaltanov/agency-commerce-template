@@ -40,13 +40,16 @@ export const getCacheOptions = async (
     return {}
   }
 
-  const cacheTag = await getCacheTag(tag)
+  // Always include the base tag so revalidateTag() can invalidate it.
+  // Also include the per-user tag when available (for cart/session scoped cache).
+  const tags: string[] = [tag]
 
-  if (!cacheTag) {
-    return {}
+  const cacheTag = await getCacheTag(tag)
+  if (cacheTag) {
+    tags.push(cacheTag)
   }
 
-  return { tags: [`${cacheTag}`] }
+  return { tags }
 }
 
 export const setAuthToken = async (token: string) => {
