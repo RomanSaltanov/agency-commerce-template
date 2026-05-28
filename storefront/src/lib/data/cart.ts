@@ -15,6 +15,20 @@ import {
 } from "./cookies"
 import { getRegion } from "./regions"
 import { getLocale } from "@lib/data/locale-actions"
+import { headers } from "next/headers"
+
+async function getCurrentLocale(): Promise<string> {
+  const fromCookie = await getLocale()
+  if (fromCookie) return fromCookie
+
+  // Fallback: extract from the referer/next-url header (e.g. /en/checkout)
+  const hdrs = await headers()
+  const nextUrl = hdrs.get("next-url") || hdrs.get("referer") || ""
+  const match = nextUrl.match(/^\/([a-z]{2})(?:\/|$)/)
+  if (match) return match[1]
+
+  return process.env.NEXT_PUBLIC_DEFAULT_LOCALE || "en"
+}
 
 /**
  * Retrieves a cart by its ID. If no ID is provided, it will use the cart ID from the cookies.
@@ -381,7 +395,7 @@ export async function setAddresses(currentState: unknown, formData: FormData) {
     return e.message
   }
 
-  const locale = await getLocale()
+  const locale = await getCurrentLocale()
   redirect(`/${locale}/checkout?step=delivery`)
 }
 
@@ -418,7 +432,7 @@ export async function placeOrder(cartId?: string) {
     revalidateTag(orderCacheTag)
 
     removeCartId()
-    const locale = await getLocale()
+    const locale = await getCurrentLocale()
     redirect(`/${locale}/order/${cartRes?.order.id}/confirmed`)
   }
 
