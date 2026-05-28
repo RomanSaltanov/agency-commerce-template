@@ -259,3 +259,47 @@ export const updateCustomerAddress = async (
       return { success: false, error: err.toString() }
     })
 }
+
+export async function requestPasswordReset(
+  _currentState: unknown,
+  formData: FormData
+) {
+  const email = formData.get("email") as string
+
+  if (!email) {
+    return { success: false, error: "Email is required" }
+  }
+
+  try {
+    await sdk.auth.resetPassword("customer", "emailpass", {
+      identifier: email,
+    })
+    return { success: true, error: null }
+  } catch {
+    return { success: false, error: "Failed to send reset email. Please try again." }
+  }
+}
+
+export async function confirmPasswordReset(
+  _currentState: unknown,
+  formData: FormData
+) {
+  const token = formData.get("token") as string
+  const password = formData.get("password") as string
+  const confirmPassword = formData.get("confirm_password") as string
+
+  if (password !== confirmPassword) {
+    return { success: false, error: "Passwords do not match" }
+  }
+
+  if (!token || !password) {
+    return { success: false, error: "Invalid reset link" }
+  }
+
+  try {
+    await sdk.auth.updateProvider("customer", "emailpass", { password }, token)
+    return { success: true, error: null }
+  } catch {
+    return { success: false, error: "Failed to reset password. The link may have expired." }
+  }
+}
