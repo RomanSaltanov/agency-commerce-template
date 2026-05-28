@@ -381,9 +381,8 @@ export async function setAddresses(currentState: unknown, formData: FormData) {
     return e.message
   }
 
-  redirect(
-    `/${formData.get("shipping_address.country_code")}/checkout?step=delivery`
-  )
+  const locale = await getLocale()
+  redirect(`/${locale}/checkout?step=delivery`)
 }
 
 /**
@@ -419,7 +418,8 @@ export async function placeOrder(cartId?: string) {
     revalidateTag(orderCacheTag)
 
     removeCartId()
-    redirect(`/${countryCode}/order/${cartRes?.order.id}/confirmed`)
+    const locale = await getLocale()
+    redirect(`/${locale}/order/${cartRes?.order.id}/confirmed`)
   }
 
   return cartRes.cart
