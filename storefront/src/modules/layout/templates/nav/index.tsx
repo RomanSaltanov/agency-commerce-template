@@ -24,7 +24,7 @@ export default async function Nav() {
             className="text-base font-semibold uppercase tracking-widest hover:text-ui-fg-base"
             data-testid="nav-store-link"
           >
-            Medusa Store
+            Aldevon Store
           </LocalizedClientLink>
 
           {/* Center links */}
