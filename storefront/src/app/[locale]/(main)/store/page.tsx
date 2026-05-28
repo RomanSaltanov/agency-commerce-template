@@ -16,6 +16,8 @@ type Params = {
     page?: string
     category?: string
     collection?: string
+    color?: string
+    size?: string
   }>
   params: Promise<{
     locale: string
@@ -23,9 +25,8 @@ type Params = {
 }
 
 export default async function StorePage(props: Params) {
-  const params = await props.params
   const searchParams = await props.searchParams
-  const { sortBy, page, category, collection } = searchParams
+  const { sortBy, page, category, collection, color, size } = searchParams
 
   return (
     <StoreTemplate
@@ -34,6 +35,8 @@ export default async function StorePage(props: Params) {
       countryCode={process.env.NEXT_PUBLIC_DEFAULT_REGION || "gb"}
       categoryHandle={category}
       collectionHandle={collection}
+      colorFilter={color}
+      sizeFilter={size}
     />
   )
 }

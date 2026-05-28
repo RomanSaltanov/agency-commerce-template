@@ -21,6 +21,8 @@ export default async function PaginatedProducts({
   categoryId,
   productsIds,
   countryCode,
+  colorFilter,
+  sizeFilter,
 }: {
   sortBy?: SortOptions
   page: number
@@ -28,9 +30,11 @@ export default async function PaginatedProducts({
   categoryId?: string
   productsIds?: string[]
   countryCode: string
+  colorFilter?: string
+  sizeFilter?: string
 }) {
   const queryParams: PaginatedProductsParams = {
-    limit: 12,
+    limit: colorFilter || sizeFilter ? 100 : 12,
   }
 
   if (collectionId) {
@@ -64,7 +68,50 @@ export default async function PaginatedProducts({
     countryCode,
   })
 
-  const totalPages = Math.ceil(count / PRODUCT_LIMIT)
+  // Client-side filter by color/size option values
+  if (colorFilter) {
+    products = products.filter((p) =>
+      p.options?.some((opt: any) => {
+        const title = opt.title?.toLowerCase()
+        return (
+          (title === "color" || title === "colour") &&
+          opt.values?.some((v: any) =>
+            v.value
+              ?.split(",")
+              .map((s: string) => s.trim())
+              .includes(colorFilter)
+          )
+        )
+      })
+    )
+  }
+
+  if (sizeFilter) {
+    products = products.filter((p) =>
+      p.options?.some((opt: any) => {
+        const title = opt.title?.toLowerCase()
+        return (
+          title === "size" &&
+          opt.values?.some((v: any) =>
+            v.value
+              ?.split(",")
+              .map((s: string) => s.trim())
+              .includes(sizeFilter)
+          )
+        )
+      })
+    )
+  }
+
+  const filteredCount = products.length
+  const totalPages = Math.ceil(
+    (colorFilter || sizeFilter ? filteredCount : count) / PRODUCT_LIMIT
+  )
+
+  const paginatedProducts =
+    colorFilter || sizeFilter
+      ? products.slice((page - 1) * PRODUCT_LIMIT, page * PRODUCT_LIMIT)
+      : products
 
   return (
     <>
@@ -72,13 +119,11 @@ export default async function PaginatedProducts({
         className="grid grid-cols-2 w-full small:grid-cols-3 medium:grid-cols-4 gap-x-6 gap-y-8"
         data-testid="products-list"
       >
-        {products.map((p) => {
-          return (
-            <li key={p.id}>
-              <ProductPreview product={p} region={region} />
-            </li>
-          )
-        })}
+        {paginatedProducts.map((p) => (
+          <li key={p.id}>
+            <ProductPreview product={p} region={region} />
+          </li>
+        ))}
       </ul>
       {totalPages > 1 && (
         <Pagination
