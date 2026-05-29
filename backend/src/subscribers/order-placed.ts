@@ -2,6 +2,23 @@ import { SubscriberArgs, SubscriberConfig } from "@medusajs/framework"
 import { INotificationModuleService } from "@medusajs/framework/types"
 import { ContainerRegistrationKeys, Modules } from "@medusajs/framework/utils"
 
+function serializeBigNumbers(obj: any): any {
+  if (obj === null || obj === undefined) return obj
+  if (typeof obj === "number" || typeof obj === "string" || typeof obj === "boolean") return obj
+  if (typeof obj === "object") {
+    if ("bignumber_" in obj) {
+      return typeof obj.numeric_ === "number" ? obj.numeric_ : parseFloat(String(obj.raw_ ?? 0))
+    }
+    if (Array.isArray(obj)) return obj.map(serializeBigNumbers)
+    const result: any = {}
+    for (const key of Object.keys(obj)) {
+      result[key] = serializeBigNumbers(obj[key])
+    }
+    return result
+  }
+  return obj
+}
+
 export default async function orderPlacedHandler({
   event: { data },
   container,
@@ -37,7 +54,7 @@ export default async function orderPlacedHandler({
     to: order.email,
     channel: "email",
     template: "order-placed",
-    data: { order },
+    data: { order: serializeBigNumbers(order) },
   })
 }
 
