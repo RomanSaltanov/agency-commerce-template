@@ -41,15 +41,23 @@ export default async function orderFulfillmentHandler({
   const fulfillment = fulfillments[0]
   if (!fulfillment) return
 
-  // For shipment/delivery events, find order via fulfillments relation
-  const orderFilters = data.order_id
-    ? { id: data.order_id }
-    : { fulfillments: { id: fulfillmentId } }
+  // For shipment/delivery events order_id is not in event data,
+  // so we look it up via order_fulfillment join table
+  let orderId = data.order_id
+  if (!orderId) {
+    const { data: orderFulfillments } = await query.graph({
+      entity: "order_fulfillment",
+      fields: ["order_id"],
+      filters: { fulfillment_id: fulfillmentId },
+    })
+    orderId = orderFulfillments[0]?.order_id
+  }
+  if (!orderId) return
 
   const { data: orders } = await query.graph({
     entity: "order",
     fields: ["id", "display_id", "email", "currency_code", "shipping_address.*"],
-    filters: orderFilters,
+    filters: { id: orderId },
   })
 
   const order = orders[0]
