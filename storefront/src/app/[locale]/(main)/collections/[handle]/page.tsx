@@ -4,7 +4,6 @@ import { notFound } from "next/navigation"
 import { getCollectionByHandle, listCollections } from "@lib/data/collections"
 import { StoreCollection } from "@medusajs/types"
 
-export const dynamic = "force-dynamic"
 import CollectionTemplate from "@modules/collections/templates"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
 
