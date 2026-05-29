@@ -40,13 +40,19 @@ export default function ProductActions({
   const [isAdding, setIsAdding] = useState(false)
   const countryCode = (process.env.NEXT_PUBLIC_DEFAULT_REGION || "gb") as string
 
-  // Preselect the first variant by default
+  // Preselect variant from URL or fall back to first variant
   useEffect(() => {
-    if (product.variants?.length && product.variants[0]) {
-      const variantOptions = optionsAsKeymap(product.variants[0].options)
+    const variantId = searchParams.get("v_id")
+    const variantFromUrl = variantId
+      ? product.variants?.find((v) => v.id === variantId)
+      : null
+
+    const targetVariant = variantFromUrl ?? product.variants?.[0]
+    if (targetVariant) {
+      const variantOptions = optionsAsKeymap(targetVariant.options)
       setOptions(variantOptions ?? {})
     }
-  }, [product.variants])
+  }, []) // only on mount
 
   const selectedVariant = useMemo(() => {
     if (!product.variants || product.variants.length === 0) {
