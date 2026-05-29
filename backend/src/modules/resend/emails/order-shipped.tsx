@@ -28,14 +28,14 @@ type OrderShippedEmailProps = {
   }
   fulfillment: {
     id: string
-    tracking_links?: { tracking_number: string; url?: string }[]
+    labels?: { tracking_number: string; tracking_url?: string }[]
     items?: { title: string; quantity: number }[]
   }
 }
 
 function OrderShippedEmailComponent({ order, fulfillment }: OrderShippedEmailProps) {
   const firstName = order.shipping_address?.first_name || ""
-  const trackingLinks = fulfillment.tracking_links || []
+  const labels = fulfillment.labels || []
 
   return (
     <Html>
@@ -58,22 +58,22 @@ function OrderShippedEmailComponent({ order, fulfillment }: OrderShippedEmailPro
             </Text>
           </Section>
 
-          {trackingLinks.length > 0 && (
+          {labels.length > 0 && (
             <Section style={{ padding: "24px" }}>
               <Text style={{ fontWeight: "600", fontSize: "14px", color: "#18181b", marginBottom: "8px" }}>
                 Tracking information
               </Text>
-              {trackingLinks.map((link, i) => (
+              {labels.map((label, i) => (
                 <Row key={i}>
                   <Column>
                     <Text style={{ margin: "4px 0", fontSize: "13px", color: "#71717a" }}>
                       Tracking number:{" "}
-                      {link.url ? (
-                        <a href={link.url} style={{ color: "#18181b", fontWeight: "500" }}>
-                          {link.tracking_number}
+                      {label.tracking_url ? (
+                        <a href={label.tracking_url} style={{ color: "#18181b", fontWeight: "500" }}>
+                          {label.tracking_number}
                         </a>
                       ) : (
-                        <span style={{ color: "#18181b", fontWeight: "500" }}>{link.tracking_number}</span>
+                        <span style={{ color: "#18181b", fontWeight: "500" }}>{label.tracking_number}</span>
                       )}
                     </Text>
                   </Column>

@@ -8,17 +8,24 @@ const EVENT_TEMPLATE_MAP: Record<string, string> = {
   "delivery.created": "order-delivered",
 }
 
-export default async function orderFulfillmentCreatedHandler({
+export default async function orderFulfillmentHandler({
   event: { data, name },
   container,
-}: SubscriberArgs<{ id?: string; fulfillment_id?: string; order_id?: string; no_notification?: boolean }>) {
+}: SubscriberArgs<{
+  id?: string
+  fulfillment_id?: string
+  order_id?: string
+  no_notification?: boolean
+}>) {
   if (data.no_notification) return
-
-  const fulfillmentId = data.id || data.fulfillment_id
-  if (!fulfillmentId) return
 
   const template = EVENT_TEMPLATE_MAP[name]
   if (!template) return
+
+  // order.fulfillment_created → { order_id, fulfillment_id }
+  // shipment.created / delivery.created → { id } (fulfillment id)
+  const fulfillmentId = data.fulfillment_id || data.id
+  if (!fulfillmentId) return
 
   const query = container.resolve(ContainerRegistrationKeys.QUERY)
   const notificationModule: INotificationModuleService = container.resolve(
@@ -27,31 +34,22 @@ export default async function orderFulfillmentCreatedHandler({
 
   const { data: fulfillments } = await query.graph({
     entity: "fulfillment",
-    fields: [
-      "id",
-      "order_id",
-      "tracking_links.*",
-      "items.*",
-    ],
+    fields: ["id", "labels.*", "items.*"],
     filters: { id: fulfillmentId },
   })
 
   const fulfillment = fulfillments[0]
   if (!fulfillment) return
 
-  const orderId = data.order_id || fulfillment.order_id
-  if (!orderId) return
+  // For shipment/delivery events, find order via fulfillments relation
+  const orderFilters = data.order_id
+    ? { id: data.order_id }
+    : { fulfillments: { id: fulfillmentId } }
 
   const { data: orders } = await query.graph({
     entity: "order",
-    fields: [
-      "id",
-      "display_id",
-      "email",
-      "currency_code",
-      "shipping_address.*",
-    ],
-    filters: { id: orderId },
+    fields: ["id", "display_id", "email", "currency_code", "shipping_address.*"],
+    filters: orderFilters,
   })
 
   const order = orders[0]
