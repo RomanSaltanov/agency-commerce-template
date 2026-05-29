@@ -7,6 +7,7 @@ import {
 import { Resend, CreateEmailOptions } from "resend"
 import * as React from "react"
 import { passwordResetEmail } from "./emails/password-reset"
+import { orderPlacedEmail } from "./emails/order-placed"
 
 type ResendOptions = {
   api_key: string
@@ -20,10 +21,12 @@ type InjectedDependencies = {
 
 enum Templates {
   PASSWORD_RESET = "password-reset",
+  ORDER_PLACED = "order-placed",
 }
 
 const templates: { [key in Templates]?: (props: unknown) => React.ReactNode } = {
   [Templates.PASSWORD_RESET]: passwordResetEmail as (props: unknown) => React.ReactNode,
+  [Templates.ORDER_PLACED]: orderPlacedEmail as (props: unknown) => React.ReactNode,
 }
 
 class ResendNotificationProviderService extends AbstractNotificationProviderService {
@@ -68,6 +71,8 @@ class ResendNotificationProviderService extends AbstractNotificationProviderServ
     switch (template) {
       case Templates.PASSWORD_RESET:
         return "Reset your password"
+      case Templates.ORDER_PLACED:
+        return "Order confirmed"
       default:
         return "Notification"
     }
