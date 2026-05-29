@@ -19,8 +19,8 @@ type OrderItem = {
   subtitle?: string
   thumbnail?: string
   quantity: number
-  unit_price: number
-  total: number
+  unit_price: unknown
+  total: unknown
 }
 
 type OrderPlacedEmailProps = {
@@ -29,10 +29,10 @@ type OrderPlacedEmailProps = {
     display_id: number
     email: string
     currency_code: string
-    item_total: number
-    shipping_total: number
-    tax_total: number
-    total: number
+    item_total: unknown
+    shipping_total: unknown
+    tax_total: unknown
+    total: unknown
     items: OrderItem[]
     shipping_address?: {
       first_name?: string
@@ -42,16 +42,27 @@ type OrderPlacedEmailProps = {
       postal_code?: string
       country_code?: string
     }
-    shipping_methods?: { name: string; total: number }[]
+    shipping_methods?: { name: string; total: unknown }[]
   }
 }
 
-function formatPrice(amount: number, currency: string) {
+function toNumber(value: unknown): number {
+  if (typeof value === "number") return value
+  if (typeof value === "string") return parseFloat(value)
+  if (value && typeof value === "object") {
+    const bv = value as Record<string, unknown>
+    if (typeof bv.numeric_ === "number") return bv.numeric_
+    if (typeof bv.raw_ !== "undefined") return parseFloat(String(bv.raw_))
+  }
+  return 0
+}
+
+function formatPrice(amount: unknown, currency: string) {
   return new Intl.NumberFormat([], {
     style: "currency",
     currency: currency.toUpperCase(),
     currencyDisplay: "narrowSymbol",
-  }).format(amount)
+  }).format(toNumber(amount))
 }
 
 function OrderPlacedEmailComponent({ order }: OrderPlacedEmailProps) {
@@ -133,7 +144,7 @@ function OrderPlacedEmailComponent({ order }: OrderPlacedEmailProps) {
                 <Column style={{ textAlign: "right" }}><Text style={{ margin: "4px 0", fontSize: "13px", color: "#71717a" }}>{formatPrice(method.total, currency)}</Text></Column>
               </Row>
             ))}
-            {(order.tax_total || 0) > 0 && (
+            {toNumber(order.tax_total) > 0 && (
               <Row>
                 <Column><Text style={{ margin: "4px 0", fontSize: "13px", color: "#71717a" }}>Tax</Text></Column>
                 <Column style={{ textAlign: "right" }}><Text style={{ margin: "4px 0", fontSize: "13px", color: "#71717a" }}>{formatPrice(order.tax_total, currency)}</Text></Column>
