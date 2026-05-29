@@ -36,6 +36,24 @@ if (TRANSLATION_ENABLED) {
   })
 }
 
+if (process.env.CACHE_REDIS_URL) {
+  modules.push({
+    resolve: "@medusajs/medusa/caching",
+    options: {
+      providers: [
+        {
+          resolve: "@medusajs/caching-redis",
+          id: "caching-redis",
+          is_default: true,
+          options: {
+            redisUrl: process.env.CACHE_REDIS_URL,
+          },
+        },
+      ],
+    },
+  })
+}
+
 if (process.env.CLOUDFLARE_R2_BUCKET) {
   modules.push({
     resolve: "@medusajs/medusa/file",
