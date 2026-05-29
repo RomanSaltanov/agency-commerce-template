@@ -4,18 +4,18 @@ import { ContainerRegistrationKeys, Modules } from "@medusajs/framework/utils"
 
 const EVENT_TEMPLATE_MAP: Record<string, string> = {
   "order.fulfillment_created": "order-fulfillment-created",
-  "order.shipment_created": "order-shipped",
-  "order.fulfillment_delivered": "order-delivered",
+  "shipment.created": "order-shipped",
+  "delivery.created": "order-delivered",
 }
 
 export default async function orderFulfillmentCreatedHandler({
   event: { data, name },
   container,
-}: SubscriberArgs<{ id?: string; fulfillment_id?: string; order_id: string; no_notification?: boolean }>) {
+}: SubscriberArgs<{ id?: string; fulfillment_id?: string; order_id?: string; no_notification?: boolean }>) {
   if (data.no_notification) return
 
   const fulfillmentId = data.id || data.fulfillment_id
-  if (!fulfillmentId || !data.order_id) return
+  if (!fulfillmentId) return
 
   const template = EVENT_TEMPLATE_MAP[name]
   if (!template) return
@@ -24,6 +24,23 @@ export default async function orderFulfillmentCreatedHandler({
   const notificationModule: INotificationModuleService = container.resolve(
     Modules.NOTIFICATION
   )
+
+  const { data: fulfillments } = await query.graph({
+    entity: "fulfillment",
+    fields: [
+      "id",
+      "order_id",
+      "tracking_links.*",
+      "items.*",
+    ],
+    filters: { id: fulfillmentId },
+  })
+
+  const fulfillment = fulfillments[0]
+  if (!fulfillment) return
+
+  const orderId = data.order_id || fulfillment.order_id
+  if (!orderId) return
 
   const { data: orders } = await query.graph({
     entity: "order",
@@ -34,24 +51,11 @@ export default async function orderFulfillmentCreatedHandler({
       "currency_code",
       "shipping_address.*",
     ],
-    filters: { id: data.order_id },
+    filters: { id: orderId },
   })
 
   const order = orders[0]
   if (!order || !order.email) return
-
-  const { data: fulfillments } = await query.graph({
-    entity: "fulfillment",
-    fields: [
-      "id",
-      "tracking_links.*",
-      "items.*",
-    ],
-    filters: { id: fulfillmentId },
-  })
-
-  const fulfillment = fulfillments[0]
-  if (!fulfillment) return
 
   await notificationModule.createNotifications({
     to: order.email,
@@ -64,7 +68,7 @@ export default async function orderFulfillmentCreatedHandler({
 export const config: SubscriberConfig = {
   event: [
     "order.fulfillment_created",
-    "order.shipment_created",
-    "order.fulfillment_delivered",
+    "shipment.created",
+    "delivery.created",
   ],
 }
