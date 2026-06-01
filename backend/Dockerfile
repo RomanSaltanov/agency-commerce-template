@@ -20,7 +20,7 @@ WORKDIR /app/.medusa/server
 ENV NODE_ENV=production
 
 COPY --from=builder /app/.medusa/server/package.json /app/.medusa/server/package-lock.json* ./
-RUN npm ci --omit=dev
+RUN npm ci --omit=dev --legacy-peer-deps
 
 COPY --from=builder /app/.medusa/server .
 
