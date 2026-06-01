@@ -1,28 +1,18 @@
-FROM node:20-alpine AS builder
+FROM node:20-alpine
 
 WORKDIR /app
 
 COPY package.json package-lock.json* ./
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 COPY . .
 ENV DISABLE_MEDUSA_ADMIN=false
 RUN npm run build
 
-# ─── Production image ─────────────────────────────────────────────────────────
-FROM node:20-alpine AS runner
-
-# medusa start resolves public/admin relative to CWD
-# medusa build outputs to .medusa/server/public/admin
-# so CWD must be .medusa/server
-WORKDIR /app/.medusa/server
-
 ENV NODE_ENV=production
 
-COPY --from=builder /app/.medusa/server .
-COPY package.json package-lock.json* ./
-RUN npm install --omit=dev --legacy-peer-deps
+WORKDIR /app/.medusa/server
 
 EXPOSE 9000
 
-CMD ["node_modules/.bin/medusa", "start"]
+CMD ["/app/node_modules/.bin/medusa", "start"]
