@@ -71,7 +71,7 @@ jobs:
             sed -i "s/IMAGE_TAG=.*/IMAGE_TAG=$IMAGE_TAG/" .env
 
             # Run migrations before swapping containers
-            docker compose run --rm backend node_modules/.bin/medusa db:migrate
+            docker compose run --rm backend /app/node_modules/.bin/medusa db:migrate
 
             # Restart with new image
             docker compose up -d --no-deps backend
