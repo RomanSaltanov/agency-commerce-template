@@ -12,6 +12,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@medusajs/cli": "2.15.5",
     "@medusajs/admin-sdk": "2.15.5",
     "@medusajs/auth-emailpass": "2.15.5",
     "@medusajs/auth-google": "2.15.5",
