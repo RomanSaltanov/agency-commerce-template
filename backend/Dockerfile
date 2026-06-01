@@ -7,7 +7,7 @@ RUN npm install --legacy-peer-deps
 
 COPY . .
 ENV DISABLE_MEDUSA_ADMIN=false
-RUN npm run build
+RUN node_modules/.bin/medusa build
 
 ENV NODE_ENV=production
 
