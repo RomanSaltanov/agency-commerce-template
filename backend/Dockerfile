@@ -26,4 +26,4 @@ COPY --from=builder /app/.medusa/server .
 
 EXPOSE 9000
 
-CMD ["npx", "medusa", "start"]
+CMD ["node_modules/.bin/medusa", "start"]
