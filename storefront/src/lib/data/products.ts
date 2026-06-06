@@ -7,6 +7,73 @@ import { SortOptions } from "@modules/store/components/refinement-list/sort-prod
 import { getAuthHeaders } from "./cookies"
 import { getRegion, retrieveRegion } from "./regions"
 
+export const getProductFilterOptions = async ({
+  countryCode,
+}: {
+  countryCode: string
+}): Promise<{
+  colors: string[]
+  sizes: string[]
+  productsByColor: Record<string, string[]>
+  productsBySize: Record<string, string[]>
+}> => {
+  const region = await getRegion(countryCode)
+  if (!region) {
+    return { colors: [], sizes: [], productsByColor: {}, productsBySize: {} }
+  }
+
+  const headers = { ...(await getAuthHeaders()) }
+
+  const { products } = await sdk.client.fetch<{
+    products: HttpTypes.StoreProduct[]
+  }>(`/store/products`, {
+    method: "GET",
+    query: {
+      limit: 100,
+      region_id: region.id,
+      fields: "id,options",
+    },
+    headers,
+    next: { tags: ["products"] },
+    cache: "force-cache",
+  })
+
+  const colorSet = new Set<string>()
+  const sizeSet = new Set<string>()
+  const productsByColor: Record<string, string[]> = {}
+  const productsBySize: Record<string, string[]> = {}
+
+  products.forEach((p) => {
+    p.options?.forEach((opt: any) => {
+      const title = opt.title?.toLowerCase()
+      opt.values?.forEach((v: any) => {
+        const vals = (v.value?.split(",").map((s: string) => s.trim()) || []).filter(
+          Boolean
+        )
+        vals.forEach((val: string) => {
+          if (title === "color" || title === "colour") {
+            colorSet.add(val)
+            productsByColor[val] = productsByColor[val] || []
+            productsByColor[val].push(p.id)
+          }
+          if (title === "size") {
+            sizeSet.add(val)
+            productsBySize[val] = productsBySize[val] || []
+            productsBySize[val].push(p.id)
+          }
+        })
+      })
+    })
+  })
+
+  return {
+    colors: Array.from(colorSet),
+    sizes: Array.from(sizeSet),
+    productsByColor,
+    productsBySize,
+  }
+}
+
 export const listProducts = async ({
   pageParam = 1,
   queryParams,

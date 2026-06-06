@@ -4,6 +4,8 @@ import FeaturedProducts from "@modules/home/components/featured-products"
 import Hero from "@modules/home/components/hero"
 import { listCollections } from "@lib/data/collections"
 import { getRegion } from "@lib/data/regions"
+import { listProducts } from "@lib/data/products"
+import { HttpTypes } from "@medusajs/types"
 
 export const metadata: Metadata = {
   title: "Aldevon Store",
@@ -27,12 +29,28 @@ export default async function Home(props: {
     return null
   }
 
+  const collectionsWithProducts = await Promise.all(
+    collections.map(async (collection) => ({
+      collection,
+      products: (
+        await listProducts({
+          regionId: region.id,
+          queryParams: {
+            collection_id: collection.id,
+            fields: "*variants.calculated_price",
+            limit: 6,
+          },
+        })
+      ).response.products,
+    }))
+  )
+
   return (
     <>
       <Hero />
       <div className="py-12">
         <ul className="flex flex-col gap-x-6">
-          <FeaturedProducts collections={collections} region={region} />
+          <FeaturedProducts collectionsWithProducts={collectionsWithProducts} region={region} />
         </ul>
       </div>
     </>

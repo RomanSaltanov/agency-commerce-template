@@ -2789,13 +2789,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:^4.14.195":
-  version: 4.17.24
-  resolution: "@types/lodash@npm:4.17.24"
-  checksum: 10/0f2082565f60f9787eefc046edc38458054512be5a8b3584ef0bad5fd9e85d0ab55ec5a1fbfae1ed6ba015cf1f9e837d5fb4da1f99fc60b8f74b2a46146fb00f
-  languageName: node
-  linkType: hard
-
 "@types/node@npm:*, @types/node@npm:17.0.21":
   version: 17.0.21
   resolution: "@types/node@npm:17.0.21"
@@ -5692,13 +5685,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:^4.17.21":
-  version: 4.18.1
-  resolution: "lodash@npm:4.18.1"
-  checksum: 10/306fea53dfd39dad1f03d45ba654a2405aebd35797b673077f401edb7df2543623dc44b9effbb98f69b32152295fff725a4cec99c684098947430600c6af0c3f
-  languageName: node
-  linkType: hard
-
 "loose-envify@npm:^1.4.0":
   version: 1.4.0
   resolution: "loose-envify@npm:1.4.0"
@@ -5749,7 +5735,6 @@ __metadata:
     "@radix-ui/react-accordion": "npm:^1.2.1"
     "@stripe/react-stripe-js": "npm:^5.3.0"
     "@stripe/stripe-js": "npm:^8.2.0"
-    "@types/lodash": "npm:^4.14.195"
     "@types/node": "npm:17.0.21"
     "@types/pg": "npm:^8.11.0"
     "@types/react": "npm:19.0.5"
@@ -5761,7 +5746,6 @@ __metadata:
     babel-loader: "npm:^8.2.3"
     eslint: "npm:8.10.0"
     eslint-config-next: "npm:15.0.8"
-    lodash: "npm:^4.17.21"
     next: "npm:15.3.9"
     next-intl: "npm:^3.26.3"
     pg: "npm:^8.11.3"

@@ -1,12 +1,20 @@
 import { Metadata } from "next"
+import { cache } from "react"
 import { notFound } from "next/navigation"
 import { listProducts } from "@lib/data/products"
 import { getRegion, listRegions } from "@lib/data/regions"
 import ProductTemplate from "@modules/products/templates"
 import { HttpTypes } from "@medusajs/types"
 
-
 const DEFAULT_REGION = process.env.NEXT_PUBLIC_DEFAULT_REGION || "ua"
+
+const getProduct = cache(async (handle: string) => {
+  const { response } = await listProducts({
+    countryCode: DEFAULT_REGION,
+    queryParams: { handle },
+  })
+  return response.products[0]
+})
 
 type Props = {
   params: Promise<{ locale: string; handle: string }>
@@ -66,10 +74,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     notFound()
   }
 
-  const product = await listProducts({
-    countryCode: DEFAULT_REGION,
-    queryParams: { handle },
-  }).then(({ response }) => response.products[0])
+  const product = await getProduct(handle)
 
   if (!product) {
     notFound()
@@ -97,10 +102,7 @@ export default async function ProductPage(props: Props) {
     notFound()
   }
 
-  const pricedProduct = await listProducts({
-    countryCode: DEFAULT_REGION,
-    queryParams: { handle: params.handle },
-  }).then(({ response }) => response.products[0])
+  const pricedProduct = await getProduct(params.handle)
 
   const images = getImagesForVariant(pricedProduct, selectedVariantId)
 
