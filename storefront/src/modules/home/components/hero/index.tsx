@@ -9,8 +9,10 @@ const Hero = () => {
         src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1920&q=80"
         alt="Fashion hero"
         fill
+        sizes="100vw"
         className="object-cover object-center"
         priority
+        fetchPriority="high"
       />
       <div className="absolute inset-0 bg-black/30 z-10 flex flex-col justify-center items-center text-center small:p-32 gap-6">
         <span>

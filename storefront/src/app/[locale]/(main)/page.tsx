@@ -7,6 +7,10 @@ import { getRegion } from "@lib/data/regions"
 import { listProducts } from "@lib/data/products"
 import { HttpTypes } from "@medusajs/types"
 
+export async function generateStaticParams() {
+  return [{ locale: "uk" }, { locale: "en" }]
+}
+
 export const metadata: Metadata = {
   title: "Aldevon Store",
   description: "Premium fashion and clothing store.",
