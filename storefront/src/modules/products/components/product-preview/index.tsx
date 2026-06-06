@@ -28,8 +28,18 @@ export default async function ProductPreview({
     product,
   })
 
+  const thumbnailVariant = product.thumbnail
+    ? product.variants?.find((v) =>
+        v.images?.some((img: any) => img.url === product.thumbnail)
+      )
+    : null
+
+  const href = thumbnailVariant
+    ? `/products/${product.handle}?v_id=${thumbnailVariant.id}`
+    : `/products/${product.handle}`
+
   return (
-    <LocalizedClientLink href={`/products/${product.handle}`} className="group">
+    <LocalizedClientLink href={href} className="group">
       <div data-testid="product-wrapper">
         <Thumbnail
           thumbnail={product.thumbnail}
