@@ -2,7 +2,7 @@ import { Metadata } from "next"
 import { cache } from "react"
 import { notFound } from "next/navigation"
 import { listProducts } from "@lib/data/products"
-import { getRegion, listRegions } from "@lib/data/regions"
+import { getRegion } from "@lib/data/regions"
 import ProductTemplate from "@modules/products/templates"
 import { HttpTypes } from "@medusajs/types"
 
@@ -104,11 +104,11 @@ export default async function ProductPage(props: Props) {
 
   const pricedProduct = await getProduct(params.handle)
 
-  const images = getImagesForVariant(pricedProduct, selectedVariantId)
-
   if (!pricedProduct) {
     notFound()
   }
+
+  const images = getImagesForVariant(pricedProduct, selectedVariantId)
 
   return (
     <ProductTemplate
