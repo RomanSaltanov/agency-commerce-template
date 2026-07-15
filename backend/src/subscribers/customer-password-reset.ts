@@ -16,8 +16,15 @@ export default async function customerPasswordResetHandler({
     Modules.NOTIFICATION
   )
 
-  const storefrontUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://shop.aldevon.co.uk"
-  const resetLink = `${storefrontUrl}/account/reset-password?token=${data.token}&email=${encodeURIComponent(data.entity_id)}`
+  let resetLink: string
+
+  if (data.actorType === "user") {
+    const adminUrl = process.env.MEDUSA_BACKEND_URL || "https://api-dev.aldevon.co.uk"
+    resetLink = `${adminUrl}/app/reset-password?token=${data.token}`
+  } else {
+    const storefrontUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://shop.aldevon.co.uk"
+    resetLink = `${storefrontUrl}/account/reset-password?token=${data.token}&email=${encodeURIComponent(data.entity_id)}`
+  }
 
   await notificationModule.createNotifications({
     to: data.entity_id,
