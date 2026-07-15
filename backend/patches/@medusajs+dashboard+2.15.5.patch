@@ -1,0 +1,195 @@
+diff --git a/node_modules/@medusajs/dashboard/dist/app.js b/node_modules/@medusajs/dashboard/dist/app.js
+index b8ed2f2..2d14a39 100644
+--- a/node_modules/@medusajs/dashboard/dist/app.js
++++ b/node_modules/@medusajs/dashboard/dist/app.js
+@@ -12362,7 +12362,7 @@ var init_en = __esm({
+       },
+       login: {
+         forgotPassword: "Forgot password? - <0>Reset</0>",
+-        title: "Welcome to Medusa",
++        title: "Welcome to Aldevon",
+         hint: "Sign in to access the account area",
+         mfa: {
+           title: "Two-factor authentication",
+@@ -12380,7 +12380,7 @@ var init_en = __esm({
+         }
+       },
+       invite: {
+-        title: "Welcome to Medusa",
++        title: "Welcome to Aldevon",
+         hint: "Create your account below",
+         backToLogin: "Back to login",
+         createAccount: "Create account",
+@@ -15774,11 +15774,11 @@ var init_enGB = __esm({
+       },
+       login: {
+         forgotPassword: "Forgot password? - <0>Reset</0>",
+-        title: "Welcome to Medusa",
++        title: "Welcome to Aldevon",
+         hint: "Sign in to access the account area"
+       },
+       invite: {
+-        title: "Welcome to Medusa",
++        title: "Welcome to Aldevon",
+         hint: "Create your account below",
+         backToLogin: "Back to login",
+         createAccount: "Create account",
+diff --git a/node_modules/@medusajs/dashboard/dist/chunk-57Z56JHS.mjs b/node_modules/@medusajs/dashboard/dist/chunk-57Z56JHS.mjs
+index 220e1d7..7144cb3 100644
+--- a/node_modules/@medusajs/dashboard/dist/chunk-57Z56JHS.mjs
++++ b/node_modules/@medusajs/dashboard/dist/chunk-57Z56JHS.mjs
+@@ -11957,7 +11957,7 @@ var en_default = {
+   },
+   login: {
+     forgotPassword: "Forgot password? - <0>Reset</0>",
+-    title: "Welcome to Medusa",
++    title: "Welcome to Aldevon",
+     hint: "Sign in to access the account area",
+     mfa: {
+       title: "Two-factor authentication",
+@@ -11975,7 +11975,7 @@ var en_default = {
+     }
+   },
+   invite: {
+-    title: "Welcome to Medusa",
++    title: "Welcome to Aldevon",
+     hint: "Create your account below",
+     backToLogin: "Back to login",
+     createAccount: "Create account",
+@@ -15364,11 +15364,11 @@ var enGB_default = {
+   },
+   login: {
+     forgotPassword: "Forgot password? - <0>Reset</0>",
+-    title: "Welcome to Medusa",
++    title: "Welcome to Aldevon",
+     hint: "Sign in to access the account area"
+   },
+   invite: {
+-    title: "Welcome to Medusa",
++    title: "Welcome to Aldevon",
+     hint: "Create your account below",
+     backToLogin: "Back to login",
+     createAccount: "Create account",
+diff --git a/node_modules/@medusajs/dashboard/dist/chunk-O333RR6K.mjs b/node_modules/@medusajs/dashboard/dist/chunk-O333RR6K.mjs
+index 16be046..6289ce6 100644
+--- a/node_modules/@medusajs/dashboard/dist/chunk-O333RR6K.mjs
++++ b/node_modules/@medusajs/dashboard/dist/chunk-O333RR6K.mjs
+@@ -57,52 +57,16 @@ function AvatarBox({ checked }) {
+           "svg",
+           {
+             className: "rounded-[10px]",
+-            viewBox: "0 0 400 400",
++            viewBox: "0 0 300 300",
+             fill: "none",
+             xmlns: "http://www.w3.org/2000/svg",
+             children: [
+-              /* @__PURE__ */ jsx("rect", { width: "400", height: "400", fill: "#18181B" }),
+-              /* @__PURE__ */ jsx(
+-                "path",
+-                {
+-                  d: "M238.088 51.1218L238.089 51.1223L310.605 92.8101C334.028 106.308 348.526 131.32 347.868 157.953L347.867 157.966V157.978V241.688C347.867 268.68 333.687 293.362 310.271 306.856L310.269 306.858L237.754 348.878C214.336 362.374 185.643 362.374 162.225 348.878L89.7127 306.859C66.6206 293.361 52.1113 268.674 52.1113 241.688V157.978C52.1113 131.326 66.6211 106.307 89.7088 92.8093C89.7101 92.8085 89.7114 92.8078 89.7127 92.807L162.556 51.1233L162.559 51.1218C185.977 37.6261 214.67 37.6261 238.088 51.1218ZM124.634 200C124.634 241.576 158.502 275.372 200.156 275.372C242.142 275.372 276.013 241.578 276.013 200C276.013 158.419 241.805 124.628 200.156 124.628C158.502 124.628 124.634 158.424 124.634 200Z",
+-                  fill: "url(#paint0_linear_11869_12671)",
+-                  stroke: "url(#paint1_linear_11869_12671)",
+-                  strokeWidth: "2"
+-                }
+-              ),
+-              /* @__PURE__ */ jsxs("defs", { children: [
+-                /* @__PURE__ */ jsxs(
+-                  "linearGradient",
+-                  {
+-                    id: "paint0_linear_11869_12671",
+-                    x1: "200",
+-                    y1: "40",
+-                    x2: "200",
+-                    y2: "360",
+-                    gradientUnits: "userSpaceOnUse",
+-                    children: [
+-                      /* @__PURE__ */ jsx("stop", { stopColor: "white" }),
+-                      /* @__PURE__ */ jsx("stop", { offset: "1", stopColor: "white", stopOpacity: "0.7" })
+-                    ]
+-                  }
+-                ),
+-                /* @__PURE__ */ jsxs(
+-                  "linearGradient",
+-                  {
+-                    id: "paint1_linear_11869_12671",
+-                    x1: "200",
+-                    y1: "40",
+-                    x2: "200",
+-                    y2: "360",
+-                    gradientUnits: "userSpaceOnUse",
+-                    children: [
+-                      /* @__PURE__ */ jsx("stop", { stopColor: "white", stopOpacity: "0" }),
+-                      /* @__PURE__ */ jsx("stop", { offset: "1", stopColor: "white", stopOpacity: "0.7" })
+-                    ]
+-                  }
+-                )
+-              ] })
++              /* @__PURE__ */ jsx("rect", { width: "300", height: "300", fill: "#1877F2" }),
++              /* @__PURE__ */ jsxs("g", { clipPath: "url(#clip0_avatar)", children: [
++                /* @__PURE__ */ jsx("path", { d: "M101.628 111.155C103.937 107.224 109.998 96.8065 115.097 88.004L124.367 72H139.836H155.305L171.616 104.508L187.927 137.015L179.569 150.804C174.972 158.389 171.064 164.596 170.885 164.6C170.706 164.603 168.673 160.9 166.368 156.371C164.063 151.841 157.529 139.186 151.849 128.247C146.169 117.308 141.043 107.313 140.458 106.034C139.873 104.756 139.254 103.718 139.083 103.726C138.911 103.736 137.252 106.46 135.395 109.78C133.538 113.1 128.086 122.669 123.279 131.044C118.472 139.419 112.377 150.047 109.733 154.661C107.09 159.276 102.927 166.541 100.482 170.805C98.0374 175.07 96.0367 178.775 96.0367 179.04C96.0367 179.305 100.318 179.528 105.55 179.534L115.064 179.547L120.991 191.072C124.25 197.41 127.011 202.858 127.125 203.178C127.253 203.537 112.08 203.761 87.6665 203.761C65.8503 203.761 48 203.584 48 203.368C48 203.152 48.5234 202.103 49.1622 201.037C49.8017 199.972 55.0439 190.989 60.8108 181.076C66.5783 171.163 75.2181 156.339 80.0112 148.135C84.8042 139.931 90.684 129.863 93.0778 125.761C95.4709 121.659 99.3188 115.086 101.628 111.155Z", fill: "white" }),
++                /* @__PURE__ */ jsx("path", { d: "M200.087 143.474C206.448 132.364 212.742 121.387 214.074 119.079L216.495 114.884H233.987H251.478L250.267 116.904C249.601 118.015 246.865 122.7 244.187 127.315C241.509 131.929 237.987 137.942 236.36 140.677C234.733 143.412 231.04 149.705 228.152 154.661C225.265 159.618 219.3 169.826 214.896 177.346C210.493 184.867 204.471 195.215 201.514 200.342C198.557 205.47 193.766 213.655 190.866 218.532L185.595 227.399L169.674 227.233L153.753 227.068L141.571 203.139C134.872 189.979 127.534 175.646 125.266 171.289L121.143 163.368L122.819 160.723C124.282 158.418 130.433 147.806 134.346 140.837L135.652 138.512L137.835 138.513L140.019 138.514L147.993 153.89C152.378 162.347 158.972 175.21 162.646 182.474C166.32 189.738 169.493 195.681 169.696 195.681C170.065 195.681 178.097 181.884 200.087 143.474Z", fill: "white" })
++              ] }),
++              /* @__PURE__ */ jsx("defs", { children: /* @__PURE__ */ jsx("clipPath", { id: "clip0_avatar", children: /* @__PURE__ */ jsx("rect", { width: "204", height: "156", fill: "white", transform: "translate(48 72)" }) }) })
+             ]
+           }
+         )
+diff --git a/node_modules/@medusajs/dashboard/dist/en.json b/node_modules/@medusajs/dashboard/dist/en.json
+index d999a4a..7ca0293 100644
+--- a/node_modules/@medusajs/dashboard/dist/en.json
++++ b/node_modules/@medusajs/dashboard/dist/en.json
+@@ -2969,7 +2969,7 @@
+   },
+   "login": {
+     "forgotPassword": "Forgot password? - <0>Reset</0>",
+-    "title": "Welcome to Medusa",
++    "title": "Welcome to Aldevon",
+     "hint": "Sign in to access the account area",
+     "mfa": {
+       "title": "Two-factor authentication",
+@@ -2987,7 +2987,7 @@
+     }
+   },
+   "invite": {
+-    "title": "Welcome to Medusa",
++    "title": "Welcome to Aldevon",
+     "hint": "Create your account below",
+     "backToLogin": "Back to login",
+     "createAccount": "Create account",
+diff --git a/node_modules/@medusajs/dashboard/dist/reset-password-WTJGPSAD.mjs b/node_modules/@medusajs/dashboard/dist/reset-password-WTJGPSAD.mjs
+index d408676..3f59dc6 100644
+--- a/node_modules/@medusajs/dashboard/dist/reset-password-WTJGPSAD.mjs
++++ b/node_modules/@medusajs/dashboard/dist/reset-password-WTJGPSAD.mjs
+@@ -84,21 +84,22 @@ var LogoBox = ({
+             )
+           }
+         ),
+-        /* @__PURE__ */ jsx(
++        /* @__PURE__ */ jsxs(
+           "svg",
+           {
+             width: "36",
+-            height: "38",
+-            viewBox: "0 0 36 38",
++            height: "36",
++            viewBox: "0 0 300 300",
+             fill: "none",
+             xmlns: "http://www.w3.org/2000/svg",
+-            children: /* @__PURE__ */ jsx(
+-              "path",
+-              {
+-                d: "M30.85 6.16832L22.2453 1.21782C19.4299 -0.405941 15.9801 -0.405941 13.1648 1.21782L4.52043 6.16832C1.74473 7.79208 0 10.802 0 14.0099V23.9505C0 27.198 1.74473 30.1683 4.52043 31.7921L13.1251 36.7822C15.9405 38.4059 19.3903 38.4059 22.2056 36.7822L30.8103 31.7921C33.6257 30.1683 35.3307 27.198 35.3307 23.9505V14.0099C35.41 10.802 33.6653 7.79208 30.85 6.16832ZM17.6852 27.8317C12.8079 27.8317 8.8426 23.8713 8.8426 19C8.8426 14.1287 12.8079 10.1683 17.6852 10.1683C22.5625 10.1683 26.5674 14.1287 26.5674 19C26.5674 23.8713 22.6022 27.8317 17.6852 27.8317Z",
+-                className: "fill-ui-button-inverted relative drop-shadow-sm"
+-              }
+-            )
++            children: [
++              /* @__PURE__ */ jsx("rect", { width: "300", height: "300", fill: "#1877F2", rx: "36" }),
++              /* @__PURE__ */ jsxs("g", { clipPath: "url(#clip0_logobox)", children: [
++                /* @__PURE__ */ jsx("path", { d: "M101.628 111.155C103.937 107.224 109.998 96.8065 115.097 88.004L124.367 72H139.836H155.305L171.616 104.508L187.927 137.015L179.569 150.804C174.972 158.389 171.064 164.596 170.885 164.6C170.706 164.603 168.673 160.9 166.368 156.371C164.063 151.841 157.529 139.186 151.849 128.247C146.169 117.308 141.043 107.313 140.458 106.034C139.873 104.756 139.254 103.718 139.083 103.726C138.911 103.736 137.252 106.46 135.395 109.78C133.538 113.1 128.086 122.669 123.279 131.044C118.472 139.419 112.377 150.047 109.733 154.661C107.09 159.276 102.927 166.541 100.482 170.805C98.0374 175.07 96.0367 178.775 96.0367 179.04C96.0367 179.305 100.318 179.528 105.55 179.534L115.064 179.547L120.991 191.072C124.25 197.41 127.011 202.858 127.125 203.178C127.253 203.537 112.08 203.761 87.6665 203.761C65.8503 203.761 48 203.584 48 203.368C48 203.152 48.5234 202.103 49.1622 201.037C49.8017 199.972 55.0439 190.989 60.8108 181.076C66.5783 171.163 75.2181 156.339 80.0112 148.135C84.8042 139.931 90.684 129.863 93.0778 125.761C95.4709 121.659 99.3188 115.086 101.628 111.155Z", fill: "white" }),
++                /* @__PURE__ */ jsx("path", { d: "M200.087 143.474C206.448 132.364 212.742 121.387 214.074 119.079L216.495 114.884H233.987H251.478L250.267 116.904C249.601 118.015 246.865 122.7 244.187 127.315C241.509 131.929 237.987 137.942 236.36 140.677C234.733 143.412 231.04 149.705 228.152 154.661C225.265 159.618 219.3 169.826 214.896 177.346C210.493 184.867 204.471 195.215 201.514 200.342C198.557 205.47 193.766 213.655 190.866 218.532L185.595 227.399L169.674 227.233L153.753 227.068L141.571 203.139C134.872 189.979 127.534 175.646 125.266 171.289L121.143 163.368L122.819 160.723C124.282 158.418 130.433 147.806 134.346 140.837L135.652 138.512L137.835 138.513L140.019 138.514L147.993 153.89C152.378 162.347 158.972 175.21 162.646 182.474C166.32 189.738 169.493 195.681 169.696 195.681C170.065 195.681 178.097 181.884 200.087 143.474Z", fill: "white" })
++              ] }),
++              /* @__PURE__ */ jsx("defs", { children: /* @__PURE__ */ jsx("clipPath", { id: "clip0_logobox", children: /* @__PURE__ */ jsx("rect", { width: "204", height: "156", fill: "white", transform: "translate(48 72)" }) }) })
++            ]
+           }
+         )
+       ]
