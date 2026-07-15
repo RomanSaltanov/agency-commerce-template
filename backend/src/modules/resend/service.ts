@@ -11,6 +11,7 @@ import { orderPlacedEmail } from "./emails/order-placed"
 import { orderShippedEmail } from "./emails/order-shipped"
 import { orderFulfillmentCreatedEmail } from "./emails/order-fulfillment-created"
 import { orderDeliveredEmail } from "./emails/order-delivered"
+import { inviteUserEmail } from "./emails/invite-user"
 
 type ResendOptions = {
   api_key: string
@@ -28,6 +29,7 @@ enum Templates {
   ORDER_SHIPPED = "order-shipped",
   ORDER_FULFILLMENT_CREATED = "order-fulfillment-created",
   ORDER_DELIVERED = "order-delivered",
+  INVITE_USER = "invite-user",
 }
 
 const templates: { [key in Templates]?: (props: unknown) => React.ReactNode } = {
@@ -36,6 +38,7 @@ const templates: { [key in Templates]?: (props: unknown) => React.ReactNode } = 
   [Templates.ORDER_SHIPPED]: orderShippedEmail as (props: unknown) => React.ReactNode,
   [Templates.ORDER_FULFILLMENT_CREATED]: orderFulfillmentCreatedEmail as (props: unknown) => React.ReactNode,
   [Templates.ORDER_DELIVERED]: orderDeliveredEmail as (props: unknown) => React.ReactNode,
+  [Templates.INVITE_USER]: inviteUserEmail as (props: unknown) => React.ReactNode,
 }
 
 class ResendNotificationProviderService extends AbstractNotificationProviderService {
@@ -88,6 +91,8 @@ class ResendNotificationProviderService extends AbstractNotificationProviderServ
         return "Your order is being prepared"
       case Templates.ORDER_DELIVERED:
         return "Your order has been delivered"
+      case Templates.INVITE_USER:
+        return "You've been invited to Aldevon Admin"
       default:
         return "Notification"
     }
