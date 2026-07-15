@@ -1,5 +1,6 @@
 import { loadEnv, defineConfig } from "@medusajs/framework/utils"
 
+
 const TRANSLATION_ENABLED = process.env.MEDUSA_FF_TRANSLATION === "true"
 
 loadEnv(process.env.NODE_ENV || "development", process.cwd())
