@@ -1,11 +1,9 @@
 import { SubscriberArgs, SubscriberConfig } from "@medusajs/framework"
-import { INotificationModuleService } from "@medusajs/framework/types"
+import { INotificationModuleService, IUserModuleService } from "@medusajs/framework/types"
 import { Modules } from "@medusajs/framework/utils"
 
 type InviteEventData = {
   id: string
-  token: string
-  email: string
 }
 
 export default async function inviteUserHandler({
@@ -15,12 +13,19 @@ export default async function inviteUserHandler({
   const notificationModule: INotificationModuleService = container.resolve(
     Modules.NOTIFICATION
   )
+  const userModule: IUserModuleService = container.resolve(Modules.USER)
+
+  const [invite] = await userModule.listInvites({ id: [data.id] })
+
+  if (!invite) {
+    return
+  }
 
   const adminUrl = process.env.MEDUSA_BACKEND_URL || "https://api-dev.aldevon.co.uk"
-  const inviteLink = `${adminUrl}/app/invite?token=${data.token}`
+  const inviteLink = `${adminUrl}/app/invite?token=${invite.token}`
 
   await notificationModule.createNotifications({
-    to: data.email,
+    to: invite.email,
     channel: "email",
     template: "invite-user",
     data: {
