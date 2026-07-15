@@ -157,7 +157,7 @@ index d999a4a..7ca0293 100644
      "backToLogin": "Back to login",
      "createAccount": "Create account",
 diff --git a/node_modules/@medusajs/dashboard/dist/invite-QU5ZNWFU.mjs b/node_modules/@medusajs/dashboard/dist/invite-QU5ZNWFU.mjs
-index 146fe85..eb32cd1 100644
+index 146fe85..f0d1c39 100644
 --- a/node_modules/@medusajs/dashboard/dist/invite-QU5ZNWFU.mjs
 +++ b/node_modules/@medusajs/dashboard/dist/invite-QU5ZNWFU.mjs
 @@ -224,7 +224,9 @@ var CreateView = ({
@@ -166,8 +166,8 @@ index 146fe85..eb32cd1 100644
                    className: "bg-ui-bg-field-component",
 -                  placeholder: t("fields.email")
 +                  placeholder: t("fields.email"),
-+                  readOnly: true,
-+                  disabled: true
++                  readOnly: !isFirstRun,
++                  disabled: !isFirstRun
                  }
                ) }) });
              }
